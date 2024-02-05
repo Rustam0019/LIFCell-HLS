@@ -11,7 +11,6 @@ class lif_param{
                ap_fixed<32,16> v_leak,
                ap_fixed<32,16> v_th,
                ap_fixed<32,16> v_reset,
-               //const char method[10],
                ap_fixed<32,16> alpha
         );
 
@@ -21,7 +20,6 @@ class lif_param{
         ap_fixed<32,16> v_leak;
         ap_fixed<32,16> v_th;
         ap_fixed<32,16> v_reset;
-        //char method[10];
         ap_fixed<32,16> alpha;
 
 };
