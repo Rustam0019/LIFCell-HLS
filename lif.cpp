@@ -13,15 +13,8 @@ LIFCell::LIFCell(lif_param p)
 
 //template<size_t N, size_t M>
 LIFFeedForwardState LIFCell::initial_state(){
-     ap_fixed<32,16> v[5][2];
-     ap_fixed<32,16> i[5][2];
-
-     for (int k = 0; k < 5; ++k) {
-            for (int j = 0; j < 2; ++j) {
-                i[k][j] = 0;
-                v[k][j] = pr.v_leak;
-            }
-        }
+     ap_fixed<32,16> v[5][2] = {pr.v_leak};
+     ap_fixed<32,16> i[5][2] = {0};
 
      LIFFeedForwardState state(v,i);
 
