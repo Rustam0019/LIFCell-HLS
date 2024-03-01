@@ -1,0 +1,7 @@
+solution1/
+.apc/
+.settings/
+hls.app
+.project
+.vitis_hls_log_all.xml
+.cproject

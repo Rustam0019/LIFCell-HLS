@@ -38,7 +38,7 @@ int main() {
 //
 //	    //ap_fixed<32, 16> output_arr[M];
 	    hls::stream<ap_fixed<32, 16>> input_stream;
-		hls::stream<ap_fixed<32, 16>> output_stream;
+		hls::stream<ap_uint<4>> output_stream;
 
 		arrayToStream(data, input_stream);
 		top_f(input_stream, output_stream);
@@ -71,11 +71,11 @@ int main() {
 //	    	}
 
 
-	    ap_fixed<32, 16> out_val[M];
+	    ap_uint<4> out_val[M];
 
 		for (int k = 0; k < 10; ++k) {
 
-				ap_fixed<32, 16> refValue;
+				ap_uint<4> refValue;
 				refFile >> refValue;
 				if(output_stream.read_nb(out_val[k])){
 					std::cout << out_val[k] << " ";

@@ -18,11 +18,11 @@ class LIFFeedForwardState{
         LIFFeedForwardState(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
 
 
-        v_and_i_get get();
-        void set(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
+        //v_and_i_get get();
+        //void set(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
 
         //template<int M>
-        void lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_fixed<32, 16>> &output_stream,
+        void lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_uint<4>> &output_stream,
                                                                             //LIFFeedForwardState st,
                                                                             lif_param p,
                                                                             ap_fixed<32,16> dt);

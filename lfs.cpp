@@ -29,7 +29,7 @@ LIFFeedForwardState::LIFFeedForwardState(ap_fixed<32,16> v[M], ap_fixed<32,16> i
 
 
 //template<int M>
-void LIFFeedForwardState::lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_fixed<32, 16>> &output_stream,
+void LIFFeedForwardState::lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_uint<4>> &output_stream,
                                                                               //LIFFeedForwardState st,
                                                                               lif_param p,
                                                                               ap_fixed<32,16> dt = 0.001)
@@ -37,7 +37,7 @@ void LIFFeedForwardState::lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &i
 
     ap_fixed<32,16> v_new[M] = {0.0};
     ap_fixed<32,16> i_new[M] = {0.0};
-    ap_fixed<32,16> str_element = 0.0;
+    ap_uint<4> str_element = 0.0;
     ap_fixed<32,16> dst[M] = {0.0};
 
     int i = 0;
@@ -76,13 +76,6 @@ void LIFFeedForwardState::lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &i
 					  }
 
 					  v_new[k] =(1 - str_element) * (v_new[k] + dt * p.tau_mem_inv * ((p.v_leak - v_new[k]) + i_new[k])) + str_element * p.v_reset;
-//					  if (input_stream.read_nb(dst)) {
-//						  //std::cout << "WHy? " << output_stream.read() << " ";
-//						  std::cout << "i_new: " << i_new[k]  << std::endl;
-//						  std::cout << "(-dt * p.tau_syn_inv * i_new[k]): " << (-dt * p.tau_syn_inv * i_new[k])  << std::endl;
-//						  std::cout << "dst: " << dst  << std::endl;
-//
-//					  }
 
 					  i_new[k] = i_new[k] + (-dt * p.tau_syn_inv * i_new[k]) + dst[k];
 				}
