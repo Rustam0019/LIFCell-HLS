@@ -1,97 +1,91 @@
 #include "lfs.h"
 
 
-
 LIFFeedForwardState::LIFFeedForwardState(){}
-LIFFeedForwardState::LIFFeedForwardState(ap_fixed<32,16> v[5][2], ap_fixed<32,16> i[5][2]){
-    for (int k = 0; k < 5; ++k) {
-            for (int j = 0; j < 2; ++j) {
-                this->i[k][j] = i[k][j];
-                this->v[k][j] = v[k][j];
-            }
+LIFFeedForwardState::LIFFeedForwardState(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]){
+    for (int k = 0; k < M; ++k) {
+                this->i[k] = i[k];
+                this->v[k] = v[k];
         }
 }
 
 
-void LIFFeedForwardState::set(ap_fixed<32,16> v1[5][2], ap_fixed<32,16> i1[5][2]){
-    for (int k = 0; k < 5; ++k) {
-            for (int j = 0; j < 2; ++j) {
-                i[k][j] = i1[k][j];
-                v[k][j] = v1[k][j];
-            }
-        }
-}
+//void LIFFeedForwardState::set(ap_fixed<32,16> v[10], ap_fixed<32,16> i[10]){
+//    for (int k = 0; k < 10; ++k) {
+//                i[k] = i1[k];
+//                v[k] = v1[k];
+//        }
+//}
+//
+//
+//v_and_i_get LIFFeedForwardState::get(){
+//            v_and_i_get v_and_i_g;
+//            for (int k = 0; k < 10; ++k) {
+//                    v_and_i_g.i_array[k] = i[k];
+//                    v_and_i_g.vv[k] = v[k];
+//            }
+//            return v_and_i_g;
+//        }
 
 
-v_and_i_get LIFFeedForwardState::get(){
-            v_and_i_get v_and_i_g;
-            for (int k = 0; k < 5; ++k) {
-                for (int j = 0; j < 2; ++j) {
-                    v_and_i_g.i_array[k][j] = i[k][j];
-                    v_and_i_g.vv[k][j] = v[k][j];
-                }
-            }
-            return v_and_i_g;
-        }
-
-//template<size_t N, size_t M>
-void LIFFeedForwardState::lif_feed_forward_step(ap_fixed<32,16> input_tn[5][2], ap_fixed<32,16> (&output_arr)[10][5][2],
-                                                                              LIFFeedForwardState st,
+//template<int M>
+void LIFFeedForwardState::lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_fixed<32, 16>> &output_stream,
+                                                                              //LIFFeedForwardState st,
                                                                               lif_param p,
-                                                                              ap_fixed<32,16> dt = 0.0001)
+                                                                              ap_fixed<32,16> dt = 0.001)
 {
 
-	//#pragma HLS INTERFACE ap_none port=input_tn // check axi interface
-	//#pragma HLS INTERFACE ap_ctrl_none port=return
+    ap_fixed<32,16> v_new[M] = {0.0};
+    ap_fixed<32,16> i_new[M] = {0.0};
+    ap_fixed<32,16> str_element = 0.0;
+    ap_fixed<32,16> dst[M] = {0.0};
 
-    //ap_fixed<32,16> dv[5][2];
-    //ap_fixed<32,16> v_decayed[5][2];
-    //ap_fixed<32,16> di[5][2];
-    //ap_fixed<32,16> i_decayed[5][2];
-    ap_fixed<32,16> z_new[5][2];
-    ap_fixed<32,16> v_new[5][2];
-    ap_fixed<32,16> i_new[5][2];
+    int i = 0;
+    	while(!input_stream.empty()){
+    		input_stream.read(dst[i]);
+    		i++;
+    	}
+
+		for (int n = 0; n < M; n++)
+		{
+			/* code */
+			for (int k = 0; k < M; ++k) {
 
 
-    ap_fixed<32,16> v1[5][2];
-    ap_fixed<32,16> i1[5][2];
+					   // dv[k] = dt * p.tau_mem_inv * ((p.v_leak - v1[k]) + i1[k]);
 
-    for (int n = 0; n < 10; n++)
-    {
-        /* code */
-    	//ap_fixed<32,16> x[5][2];
-        v_and_i_get v_and_i_g = st.get();
-        for (int k = 0; k < 5; ++k) {
-                for (int j = 0; j < 2; ++j) {
-                   i1[k][j] = v_and_i_g.i_array[k][j];
+					   //v_decayed[k] = v1[k] + dt * p.tau_mem_inv * ((p.v_leak - v1[k]) + i1[k]);
 
-                   v1[k][j] = v_and_i_g.vv[k][j];
+					   //di[k] = -dt * p.tau_syn_inv * i1[k];
 
-                   // dv[k][j] = dt * p.tau_mem_inv * ((p.v_leak - v1[k][j]) + i1[k][j]);
+					   //i_decayed[k] = i1[k] + (-dt * p.tau_syn_inv * i1[k]);
 
-                   //v_decayed[k][j] = v1[k][j] + dt * p.tau_mem_inv * ((p.v_leak - v1[k][j]) + i1[k][j]);
+					   //x[k] = v1[k] + dt * p.tau_mem_inv * ((p.v_leak - v1[k]) + i1[k]) - p.v_th;
 
-                   //di[k][j] = -dt * p.tau_syn_inv * i1[k][j];
+					   if((v_new[k] + dt * p.tau_mem_inv * ((p.v_leak - v_new[k]) + i_new[k]) - p.v_th) > 0){
+									   if(n == 9){
+						   	   	   	   output_stream.write(1.0);
+									   }
+									   str_element = 1.0;
+					   }
+					   else{
+									   if(n == 9){
+									   output_stream.write(0.0);
+									   }
+									   str_element = 0.0;
+					  }
 
-                   //i_decayed[k][j] = i1[k][j] + (-dt * p.tau_syn_inv * i1[k][j]);
+					  v_new[k] =(1 - str_element) * (v_new[k] + dt * p.tau_mem_inv * ((p.v_leak - v_new[k]) + i_new[k])) + str_element * p.v_reset;
+//					  if (input_stream.read_nb(dst)) {
+//						  //std::cout << "WHy? " << output_stream.read() << " ";
+//						  std::cout << "i_new: " << i_new[k]  << std::endl;
+//						  std::cout << "(-dt * p.tau_syn_inv * i_new[k]): " << (-dt * p.tau_syn_inv * i_new[k])  << std::endl;
+//						  std::cout << "dst: " << dst  << std::endl;
+//
+//					  }
 
-                   //x[k][j] = v1[k][j] + dt * p.tau_mem_inv * ((p.v_leak - v1[k][j]) + i1[k][j]) - p.v_th;
+					  i_new[k] = i_new[k] + (-dt * p.tau_syn_inv * i_new[k]) + dst[k];
+				}
 
-                   if((v1[k][j] + dt * p.tau_mem_inv * ((p.v_leak - v1[k][j]) + i1[k][j]) - p.v_th) > 0){
-								   z_new[k][j] = 1.0;
-                   }
-                   else{
-								   z_new[k][j] = 0.0;
-				  }
-
-                  v_new[k][j] =(1 - z_new[k][j]) * (v1[k][j] + dt * p.tau_mem_inv * ((p.v_leak - v1[k][j]) + i1[k][j])) + z_new[k][j] * p.v_reset;
-
-                  i_new[k][j] = i1[k][j] + (-dt * p.tau_syn_inv * i1[k][j]) + input_tn[k][j];
-
-                  output_arr[n][k][j] = z_new[k][j];
-                }
-            }
-
-    st.set(v_new, i_new);
-    }
+			}
 }

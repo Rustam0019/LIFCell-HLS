@@ -9,7 +9,9 @@ class LIFCell{
         LIFCell(lif_param p);
 
         //template<size_t N, size_t M>
-        LIFFeedForwardState initial_state();
+        void initial_state();
+        //template<int M>
+        void calc(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_fixed<32, 16>> &output_stream, lif_param p);
 
     private:
         lif_param pr;

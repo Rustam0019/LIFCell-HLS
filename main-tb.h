@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include "lif.h"
+//#include "lif.h"
+#include <hls_stream.h>
+#include "top.h"
 
-//#define N 8
+#define M 10

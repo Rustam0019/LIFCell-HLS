@@ -1,6 +1,7 @@
 #ifndef LIF_PARAM
 #define LIF_PARAM
 
+#define M 10
 #include <ap_fixed.h>
 
 class lif_param{

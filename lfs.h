@@ -2,35 +2,36 @@
 #define LFS_H
 
 #include "lif_param.h"
+#include <hls_stream.h>
 
-#define ArraySize1 10
-#define ArraySize2 5
-#define ArraySize3 2
 
-struct v_and_i_get {
-        ap_fixed<32,16> vv[5][2];
-        ap_fixed<32,16> i_array[ArraySize1][ArraySize2];
-        };
+//struct v_and_i_get {
+//        ap_fixed<32,16> vv[10];
+//        ap_fixed<32,16> i_array[10];
+//        };
+
 
 class LIFFeedForwardState{
     public:
 
         LIFFeedForwardState();
-        //template<size_t N, size_t M>
-        LIFFeedForwardState(ap_fixed<32,16> v[5][2], ap_fixed<32,16> i[5][2]);
-        //template<size_t N, size_t M>
-        void lif_feed_forward_step(ap_fixed<32,16> input_tn[5][2], ap_fixed<32,16> (&output_arr)[10][5][2],
-                                                                    LIFFeedForwardState st,
-                                                                    lif_param p,
-                                                                    ap_fixed<32,16> dt);
+        LIFFeedForwardState(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
+
 
         v_and_i_get get();
-        void set(ap_fixed<32,16> v1[5][2], ap_fixed<32,16> i1[5][2]);
+        void set(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
+
+        //template<int M>
+        void lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_fixed<32, 16>> &output_stream,
+                                                                            //LIFFeedForwardState st,
+                                                                            lif_param p,
+                                                                            ap_fixed<32,16> dt);
 
     private:
-        ap_fixed<32,16> v[5][2];
-        ap_fixed<32,16> i[5][2];
+        ap_fixed<32,16> v[M];
+        ap_fixed<32,16> i[M];
 
 };
+
 
 #endif
