@@ -1,26 +1,20 @@
-
-#include <ap_int.h>
-#include <ap_fixed.h>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include "lif.h"
+#include "top.h"
 
 
 
 
-void top_f(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_uint<4>> &output_stream) {
+void top_f(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream) {
 
 
 
 
 
-	    lif_param p(ap_fixed<32, 16>(200.0),
-	    			ap_fixed<32, 16> (100.0),
-					ap_fixed<32, 16> (0.0),
-					ap_fixed<32, 16> (1.0),
-					ap_fixed<32, 16> (0.0),
-					ap_fixed<32, 16>(100.0)
+	    lif_param p(din_10(200.0),
+	    			din_10 (100.0),
+					din_10 (0.0),
+					din_10 (1.0),
+					din_10 (0.0),
+					din_10(100.0)
 					);
 	    LIFCell l(p);
 

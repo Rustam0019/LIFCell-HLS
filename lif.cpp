@@ -13,8 +13,8 @@ LIFCell::LIFCell(lif_param p)
 
 
 //void LIFCell::initial_state(){
-////     ap_fixed<32,16> v[10] = {pr.v_leak};
-////     ap_fixed<32,16> i[10] = {0};
+////     din_10 v[10] = {pr.v_leak};
+////     din_10 i[10] = {0};
 //
 //     //LIFFeedForwardState state(v,i);
 //
@@ -23,7 +23,7 @@ LIFCell::LIFCell(lif_param p)
 
 
 //template<int M>
-void LIFCell::calc(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_uint<4>> &output_stream, lif_param p){
+void LIFCell::calc(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream, lif_param p){
 	LIFFeedForwardState state;
 
 	state.lif_feed_forward_step(input_stream, output_stream, p, 0.001);

@@ -2,12 +2,12 @@
 
 lif_param::lif_param(){}
 
-lif_param::lif_param(ap_fixed<32,16> tau_syn_inv,
-                ap_fixed<32,16> tau_mem_inv,
-                ap_fixed<32,16> v_leak,
-                ap_fixed<32,16> v_th,
-                ap_fixed<32,16> v_reset,
-                ap_fixed<32,16> alpha)
+lif_param::lif_param(din_10 tau_syn_inv,
+                din_10 tau_mem_inv,
+                din_10 v_leak,
+                din_10 v_th,
+                din_10 v_reset,
+                din_10 alpha)
 {
      this->tau_syn_inv = tau_syn_inv;
      this->tau_mem_inv = tau_mem_inv;

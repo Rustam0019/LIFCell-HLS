@@ -6,8 +6,8 @@
 
 
 //struct v_and_i_get {
-//        ap_fixed<32,16> vv[10];
-//        ap_fixed<32,16> i_array[10];
+//        din_10 vv[10];
+//        din_10 i_array[10];
 //        };
 
 
@@ -15,21 +15,21 @@ class LIFFeedForwardState{
     public:
 
         LIFFeedForwardState();
-        LIFFeedForwardState(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
+        LIFFeedForwardState(din_10 v[M], din_10 i[M]);
 
 
         //v_and_i_get get();
-        //void set(ap_fixed<32,16> v[M], ap_fixed<32,16> i[M]);
+        //void set(din_10 v[M], din_10 i[M]);
 
         //template<int M>
-        void lif_feed_forward_step(hls::stream<ap_fixed<32, 16>> &input_stream, hls::stream<ap_uint<4>> &output_stream,
+        void lif_feed_forward_step(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream,
                                                                             //LIFFeedForwardState st,
                                                                             lif_param p,
-                                                                            ap_fixed<32,16> dt);
+																			din_8 dt);
 
     private:
-        ap_fixed<32,16> v[M];
-        ap_fixed<32,16> i[M];
+        din_10 v[M];
+        din_10 i[M];
 
 };
 

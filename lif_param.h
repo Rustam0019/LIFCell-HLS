@@ -1,27 +1,27 @@
 #ifndef LIF_PARAM
 #define LIF_PARAM
 
-#define M 10
-#include <ap_fixed.h>
+#define M 80
+#include "data_types.h"
 
 class lif_param{
     public:
         lif_param();
-        lif_param(ap_fixed<32,16> tau_syn_inv,
-               ap_fixed<32,16> tau_mem_inv,
-               ap_fixed<32,16> v_leak,
-               ap_fixed<32,16> v_th,
-               ap_fixed<32,16> v_reset,
-               ap_fixed<32,16> alpha
+        lif_param(din_10 tau_syn_inv,
+               din_10 tau_mem_inv,
+               din_10 v_leak,
+               din_10 v_th,
+               din_10 v_reset,
+               din_10 alpha
         );
 
 
-        ap_fixed<32,16> tau_syn_inv;
-        ap_fixed<32,16> tau_mem_inv;
-        ap_fixed<32,16> v_leak;
-        ap_fixed<32,16> v_th;
-        ap_fixed<32,16> v_reset;
-        ap_fixed<32,16> alpha;
+        din_10 tau_syn_inv;
+        din_10 tau_mem_inv;
+        din_10 v_leak;
+        din_10 v_th;
+        din_10 v_reset;
+        din_10 alpha;
 
 };
 
