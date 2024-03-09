@@ -23,7 +23,7 @@ LIFCell::LIFCell(lif_param p)
 
 
 //template<int M>
-void LIFCell::calc(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream, lif_param p){
+void LIFCell::calc(hls::stream<din_8> &input_stream, hls::stream<din_1> &output_stream, lif_param p){
 	LIFFeedForwardState state;
 
 	state.lif_feed_forward_step(input_stream, output_stream, p, 0.001);

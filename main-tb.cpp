@@ -1,12 +1,12 @@
 #include "main-tb.h"
 
 
-void arrayToStream(din_8 arr[M], hls::stream<din_8>& input_stream) {
-
-    for (int i = 0; i < M; ++i) {
-    	input_stream.write(arr[i]);
-    }
-}
+//void arrayToStream(din_8 arr[M], hls::stream<din_8>& input_stream) {
+//
+//    for (int i = 0; i < M; ++i) {
+//    	input_stream.write(arr[i]);
+//    }
+//}
 
 int main() {
 
@@ -40,11 +40,10 @@ int main() {
 
 
 
-	    hls::stream<din_8> input_stream;
-		hls::stream<din_2> output_stream;
 
-		arrayToStream(data, input_stream);
-		top_f(input_stream, output_stream);
+		din_1 out_val[M];
+
+		top_f(data, out_val);
 
 
 	std::ifstream refFile("reference_data1.txt");
@@ -53,15 +52,15 @@ int main() {
 	        return -1;
 	    }
 
-	    din_2 out_val[M];
+
 
 		for (int k = 0; k < M; ++k) {
 
-				din_2 refValue;
+				din_1 refValue;
 				refFile >> refValue;
-				if(output_stream.read_nb(out_val[k])){
+				//if(output_stream.read_nb(out_val[k])){
 					std::cout << out_val[k] << " ";
-					if(k % 10 == 0 && k > 0){
+					if((k+1) % 8 == 0 && k > 0){
 						std::cout << std::endl;
 					}
 					if ( out_val[k] != refValue) {
@@ -69,7 +68,7 @@ int main() {
 								  << out_val[k] << ", Reference output = " << refValue << std::endl;
 						status = 1;
 					}
-				}
+				//}
 
 		}
 

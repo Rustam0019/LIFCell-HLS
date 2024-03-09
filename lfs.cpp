@@ -29,38 +29,34 @@ LIFFeedForwardState::LIFFeedForwardState(din_10 v[M], din_10 i[M]){
 
 
 //template<int M>
-void LIFFeedForwardState::lif_feed_forward_step(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream,
+void LIFFeedForwardState::lif_feed_forward_step(hls::stream<din_8> &input_stream, hls::stream<din_1> &output_stream,
                                                                               //LIFFeedForwardState st,
                                                                               lif_param p,
-																			  din_8 dt = 0.001)
+																			  din_10 dt = 0.001)
 {
 
-	ap_fixed<16, 8> v_new[M] = {0.0};
-    din_10 i_new[M] = {0.0};
-    din_2 str_element = 0.0;
+	din_8 v_new[M] = {0.0};
+	din_8 i_new[M] = {0.0};
+    din_1 str_element = 0.0;
     din_8 dst[M] = {0.0};
-    ap_uint<8> i = 0;
-
-//    int i = 0;
-//    	while(!input_stream.empty()){
-//    		input_stream.read(dst[i]);
-//    		i++;
-//    	}
 
 
-		for(i = 0; i < M; i++){
-			if(!input_stream.empty()){
-				input_stream.read(dst[i]);
-			}
-		}
+//		for(i = 0; i < M; i++){
+//			if(!input_stream.empty()){
+//				input_stream.read(dst[i]);
+//			}
+//		}
 
 
 		for (int n = 0; n < 10; n++)
 		{
 			/* code */
 			for (int k = 0; k < M; ++k) {
+			#pragma HLS PIPELINE
+				if(!input_stream.empty() && n==0){
+						input_stream.read(dst[k]);
 
-
+				}
 			   // dv[k] = dt * p.tau_mem_inv * ((p.v_leak - v1[k]) + i1[k]);
 
 			   //v_decayed[k] = v1[k] + dt * p.tau_mem_inv * ((p.v_leak - v1[k]) + i1[k]);

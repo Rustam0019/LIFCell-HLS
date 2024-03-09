@@ -22,10 +22,10 @@ class LIFFeedForwardState{
         //void set(din_10 v[M], din_10 i[M]);
 
         //template<int M>
-        void lif_feed_forward_step(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream,
+        void lif_feed_forward_step(hls::stream<din_8> &input_stream, hls::stream<din_1> &output_stream,
                                                                             //LIFFeedForwardState st,
                                                                             lif_param p,
-																			din_8 dt);
+																			din_10 dt);
 
     private:
         din_10 v[M];

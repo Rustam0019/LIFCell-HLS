@@ -11,7 +11,7 @@ class LIFCell{
         //template<size_t N, size_t M>
         void initial_state();
         //template<int M>
-        void calc(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream, lif_param p);
+        void calc(hls::stream<din_8> &input_stream, hls::stream<din_1> &output_stream, lif_param p);
 
     private:
         lif_param pr;

@@ -10,6 +10,11 @@
 #include "lif.h"
 #include "data_types.h"
 
-void top_f(hls::stream<din_8> &input_stream, hls::stream<din_2> &output_stream);
+
+void arrayToStream(din_8 *arr, hls::stream<din_8>& input_stream);
+
+void streamToArray(hls::stream<din_1> &output_stream, din_1 *arr);
+
+void top_f(din_8 *data_in, din_1 *data_out);
 
 #endif
